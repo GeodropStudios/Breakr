@@ -9,10 +9,10 @@
     android:background="@color/calm0">
 
     <Button
-        android:id="@+id/pauseButton"
+        android:id="@+id/pausePlayButton"
         android:layout_width="138dp"
         android:layout_height="69dp"
-        android:text="Pause"
+        android:text="placeholder text"
         app:backgroundTint="@color/calm3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/stopButton"
@@ -31,7 +31,7 @@
         app:backgroundTint="@color/calm3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/pauseButton"
+        app:layout_constraintStart_toEndOf="@+id/pausePlayButton"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.729" />
 
@@ -61,7 +61,7 @@
         android:textSize="36sp"
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/breakText"
+        app:layout_constraintEnd_toStartOf="@+id/breakWorkText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.45" />
@@ -82,12 +82,12 @@
         app:layout_constraintVertical_bias="0.332" />
 
     <TextView
-        android:id="@+id/breakText"
+        android:id="@+id/breakWorkText"
         android:layout_width="220dp"
         android:layout_height="51dp"
         android:fontFamily="sans-serif-black"
         android:gravity="fill"
-        android:text="until break"
+        android:text="placeholder text"
         android:textSize="24sp"
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -10,33 +10,37 @@ import android.widget.Button
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Set the transition animations and the content view.
         with(window) {
             requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
             enterTransition = Fade()
             exitTransition = Fade()
         }
-
         setContentView(R.layout.activity_main)
 
-        val hourButton1: Button = findViewById<Button>(R.id.endButton)
-        val hourButton2: Button = findViewById<Button>(R.id.hourButton2)
-        val hourButton3: Button = findViewById<Button>(R.id.hourButton3)
-        val hourButton4: Button = findViewById<Button>(R.id.hourButton4)
-
-        hourButton1.setOnClickListener {
-            startActivity(Intent(this, TimerActivity::class.java))
+        // Create click listeners for the buttons.
+        findViewById<Button>(R.id.endButton).setOnClickListener {
+            startTimerActivity(60)
         }
 
-        hourButton2.setOnClickListener {
-            startActivity(Intent(this, TimerActivity::class.java))
+        findViewById<Button>(R.id.hourButton2).setOnClickListener {
+            startTimerActivity(120)
         }
 
-        hourButton3.setOnClickListener {
-            startActivity(Intent(this, TimerActivity::class.java))
+        findViewById<Button>(R.id.hourButton3).setOnClickListener {
+            startTimerActivity(180)
         }
 
-        hourButton4.setOnClickListener {
-            startActivity(Intent(this, TimerActivity::class.java))
+        findViewById<Button>(R.id.hourButton4).setOnClickListener {
+            startTimerActivity(240)
         }
+    }
+
+    // Starts the timer activity with a session length given in minutes.
+    private fun startTimerActivity(minutes: Int) {
+        val nextIntent: Intent = Intent(this, TimerActivity::class.java)
+        nextIntent.putExtra("sessionDuration", minutes)
+        startActivity(nextIntent)
     }
 }

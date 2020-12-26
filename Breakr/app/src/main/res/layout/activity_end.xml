@@ -15,12 +15,12 @@
 
 
         <TextView
-            android:id="@+id/introText"
+            android:id="@+id/endText"
             android:layout_width="357dp"
             android:layout_height="161dp"
             android:fontFamily="sans-serif-black"
             android:gravity="center"
-            android:text="You worked for $workedTime and took $numBreaks breaks!"
+            android:text="placeholder text"
             android:textSize="30sp"
             android:typeface="normal"
             app:layout_constraintBottom_toTopOf="@+id/endButton"
@@ -41,7 +41,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/introText" />
+            app:layout_constraintTop_toBottomOf="@+id/endText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

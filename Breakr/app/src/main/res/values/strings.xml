@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Breakr</string>
+    <string name="work_text">until break</string>
+    <string name="break_text">until work</string>
+    <string name="play_text">play</string>
+    <string name="pause_text">pause</string>
+    <string name="end_template">You worked for %s minutes and took %s breaks!</string>
 </resources>
