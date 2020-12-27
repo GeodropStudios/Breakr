@@ -33,4 +33,8 @@ class EndActivity : AppCompatActivity() {
 
         endText.text = resources.getString(R.string.end_template).format(actualSessionDuration, actualNumBreaks)
     }
+
+    override fun onBackPressed() {
+        this.moveTaskToBack(true);
+    }
 }

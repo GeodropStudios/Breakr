@@ -37,6 +37,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        this.moveTaskToBack(true);
+    }
+
     // Starts the timer activity with a session length given in minutes.
     private fun startTimerActivity(minutes: Int) {
         val nextIntent: Intent = Intent(this, TimerActivity::class.java)

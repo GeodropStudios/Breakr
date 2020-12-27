@@ -43,6 +43,10 @@ class TimerActivity : AppCompatActivity() {
         initialize()
     }
 
+    override fun onBackPressed() {
+        this.moveTaskToBack(true);
+    }
+
     private fun initialize() {
         // Get the session duration from the intent.
         sessionDuration = intent.getIntExtra("sessionDuration", 60)
