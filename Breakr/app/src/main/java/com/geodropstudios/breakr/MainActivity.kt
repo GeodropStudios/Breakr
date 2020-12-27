@@ -42,5 +42,6 @@ class MainActivity : AppCompatActivity() {
         val nextIntent: Intent = Intent(this, TimerActivity::class.java)
         nextIntent.putExtra("sessionDuration", minutes)
         startActivity(nextIntent)
+        finish()
     }
 }

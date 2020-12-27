@@ -24,6 +24,7 @@ class EndActivity : AppCompatActivity() {
         // Set the end button's onclick.
         findViewById<Button>(R.id.endButton).setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
 
         val endText: TextView = findViewById(R.id.endText)

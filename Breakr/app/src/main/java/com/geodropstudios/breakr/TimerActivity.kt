@@ -75,6 +75,7 @@ class TimerActivity : AppCompatActivity() {
         nextIntent.putExtra("actualSessionDuration", minutes)
         nextIntent.putExtra("actualNumBreaks", numBreaks)
         startActivity(nextIntent)
+        finish()
     }
 
     private fun setBreakWorkText() {
