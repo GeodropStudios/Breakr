@@ -70,10 +70,10 @@ class TimerActivity : AppCompatActivity() {
     }
 
     // Starts the end activity with a session length given in minutes and a number of breaks.
-    private fun startEndActivity(minutes: Int, breaks: Int) {
+    private fun startEndActivity(minutes: Int, numBreaks: Int) {
         val nextIntent: Intent = Intent(this, EndActivity::class.java)
         nextIntent.putExtra("actualSessionDuration", minutes)
-        nextIntent.putExtra("actualNumBreaks", breaks)
+        nextIntent.putExtra("actualNumBreaks", numBreaks)
         startActivity(nextIntent)
     }
 

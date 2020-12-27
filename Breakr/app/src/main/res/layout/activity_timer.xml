@@ -12,44 +12,54 @@
         android:id="@+id/pausePlayButton"
         android:layout_width="138dp"
         android:layout_height="69dp"
-        android:text="placeholder text"
+        android:layout_marginBottom="140dp"
+        android:text="@string/pause_text"
         app:backgroundTint="@color/calm3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/stopButton"
         app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.729" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/stopButton"
         android:layout_width="138dp"
         android:layout_height="69dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="140dp"
         android:layout_marginStart="8dp"
-        android:text="Stop"
+        android:text="@string/stop_text"
         app:backgroundTint="@color/calm3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/pausePlayButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.729" />
+        app:layout_constraintStart_toEndOf="@+id/pausePlayButton" />
+
+    <TextView
+        android:id="@+id/sessionText"
+        android:layout_width="220dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="200dp"
+        android:fontFamily="sans-serif-black"
+        android:gravity="fill"
+        android:text="@string/until_session_end_text"
+        android:textSize="24sp"
+        android:typeface="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/sessionTimer"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/sessionTimer"
         android:layout_width="126dp"
         android:layout_height="52dp"
+        android:layout_marginTop="200dp"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
-        android:text="00:00"
+        android:text="@string/zero_timer"
         android:textSize="36sp"
         android:typeface="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/sessionText"
         app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.331" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/breakTimer"
@@ -57,29 +67,14 @@
         android:layout_height="52dp"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
-        android:text="00:00"
+        android:text="@string/zero_timer"
         android:textSize="36sp"
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/breakWorkText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
-
-    <TextView
-        android:id="@+id/sessionText"
-        android:layout_width="220dp"
-        android:layout_height="51dp"
-        android:fontFamily="sans-serif-black"
-        android:gravity="fill"
-        android:text="until session end"
-        android:textSize="24sp"
-        android:typeface="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sessionTimer"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.332" />
+        app:layout_constraintTop_toBottomOf="@+id/sessionTimer"
+        app:layout_constraintVertical_bias="0.086" />
 
     <TextView
         android:id="@+id/breakWorkText"
@@ -87,13 +82,13 @@
         android:layout_height="51dp"
         android:fontFamily="sans-serif-black"
         android:gravity="fill"
-        android:text="placeholder text"
+        android:text="@string/work_text"
         android:textSize="24sp"
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/breakTimer"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
+        app:layout_constraintTop_toBottomOf="@+id/sessionText"
+        app:layout_constraintVertical_bias="0.09" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

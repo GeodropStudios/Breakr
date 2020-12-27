@@ -5,4 +5,13 @@
     <string name="play_text">play</string>
     <string name="pause_text">pause</string>
     <string name="end_template">You worked for %s minutes and took %s breaks!</string>
+    <string name="intro_string">How long will this work session be?</string>
+    <string name="hours_string_1">1 hour</string>
+    <string name="hours_string_2">2 hours</string>
+    <string name="hours_string_3">3 hours</string>
+    <string name="hours_string_4">4 hours</string>
+    <string name="return_to_start_string">return to start</string>
+    <string name="stop_text">stop</string>
+    <string name="zero_timer">00:00</string>
+    <string name="until_session_end_text">until session end</string>
 </resources>
