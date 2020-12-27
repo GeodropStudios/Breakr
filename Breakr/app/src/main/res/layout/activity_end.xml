@@ -16,6 +16,7 @@
         android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:text="@string/end_template"
+        android:textColor="@color/darkText"
         android:textSize="30sp"
         android:typeface="normal"
         app:layout_constraintBottom_toTopOf="@+id/endButton"

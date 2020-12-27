@@ -1,7 +1,10 @@
 package com.geodropstudios.breakr
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.transition.Fade
 import android.view.Window
 import android.widget.Button
@@ -23,8 +26,10 @@ class EndActivity : AppCompatActivity() {
 
         // Set the end button's onclick.
         findViewById<Button>(R.id.endButton).setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            startActivity(Intent(this, MainActivity::class.java), ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+            Handler(Looper.getMainLooper()).postDelayed({
+                finish()
+            }, R.integer.fadeDuration.toLong())
         }
 
         val endText: TextView = findViewById(R.id.endText)

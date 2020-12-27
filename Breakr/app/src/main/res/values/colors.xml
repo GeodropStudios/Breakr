@@ -15,4 +15,7 @@
     <color name="calm3">#C76B98</color>
     <color name="calm4">#632B6C</color>
     <color name="calm5">#270F36</color>
+
+    <!-- Text colors -->
+    <color name="darkText">#8A000000</color>
 </resources>

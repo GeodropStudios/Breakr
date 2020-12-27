@@ -1,8 +1,11 @@
 package com.geodropstudios.breakr
 
+import android.app.ActivityOptions
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.transition.Fade
 import android.view.Window
 import android.widget.Button
@@ -45,7 +48,9 @@ class MainActivity : AppCompatActivity() {
     private fun startTimerActivity(minutes: Int) {
         val nextIntent: Intent = Intent(this, TimerActivity::class.java)
         nextIntent.putExtra("sessionDuration", minutes)
-        startActivity(nextIntent)
-        finish()
+        startActivity(nextIntent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+        Handler(Looper.getMainLooper()).postDelayed({
+            finish()
+        }, R.integer.fadeDuration.toLong())
     }
 }

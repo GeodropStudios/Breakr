@@ -1,13 +1,17 @@
 package com.geodropstudios.breakr
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.transition.Fade
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
+
 
 class TimerActivity : AppCompatActivity() {
 
@@ -78,8 +82,11 @@ class TimerActivity : AppCompatActivity() {
         val nextIntent: Intent = Intent(this, EndActivity::class.java)
         nextIntent.putExtra("actualSessionDuration", minutes)
         nextIntent.putExtra("actualNumBreaks", numBreaks)
-        startActivity(nextIntent)
-        finish()
+        startActivity(nextIntent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            finish()
+        }, R.integer.fadeDuration.toLong())
     }
 
     private fun setBreakWorkText() {
