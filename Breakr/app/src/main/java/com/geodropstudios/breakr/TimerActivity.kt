@@ -15,10 +15,6 @@ import java.util.*
 
 class TimerActivity : AppCompatActivity() {
 
-    private class Break {
-
-    }
-
     // References to views
     private var breakTimer: TextView? = null
     private var breakWorkText: TextView? = null
@@ -48,7 +44,7 @@ class TimerActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        this.moveTaskToBack(true);
+        this.moveTaskToBack(true)
     }
 
     private fun initialize() {
@@ -75,6 +71,15 @@ class TimerActivity : AppCompatActivity() {
         // Set actual text for placeholders.
         setBreakWorkText()
         setPausePlayButtonText()
+
+        // Create breaks.
+        initializeBreaks()
+    }
+
+    private fun initializeBreaks() {
+        breaks = LinkedList<Break>()
+
+        // bladibla
     }
 
     // Starts the end activity with a session length given in minutes and a number of breaks.
