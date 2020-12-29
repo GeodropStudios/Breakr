@@ -6,12 +6,13 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.transition.Fade
+import android.util.Log
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import java.lang.StringBuilder
 import java.util.*
-
 
 class TimerActivity : AppCompatActivity() {
 
@@ -76,10 +77,61 @@ class TimerActivity : AppCompatActivity() {
         initializeBreaks()
     }
 
+    // Initializes the break list by creating breaks at proper intervals.
     private fun initializeBreaks() {
-        breaks = LinkedList<Break>()
+        // Temporary value to later be assigned to breaks.
+        val createdBreaks = LinkedList<Break>()
 
-        // bladibla
+        // Array of all possible types of breaks for comparing priorities and frequencies.
+        // Sorted according to priority to later be abel to use indexOf to find highest priority.
+        // When adding new breaks, make sure to include it here.
+        val templateBreaks = Array(3) { ExerciseBreak(0); RestBreak(0); EyeBreak(0) }.sortedBy { it.priority }
+
+        // Iteration variable is the number of minutes from the start of the session.
+        // Start iterating at the first minute, so that the session does not begin with a break.
+        // Stop iteration when the session end has ben passed.
+        var minutes = 1
+        while (minutes < sessionDuration) {
+            // Boolean array saying if the break at index i of templateBreaks could occur at the current minute.
+            val possibleBreakIndices = Array(templateBreaks.size) { i -> minutes % templateBreaks[i].frequency == 0 }
+
+            // Find the first index of a break that could appear this minute.
+            // The first occurrence will necessarily be the one with highest priority because of sorting earlier.
+            // Only consider breaks that are possible this minute and if there are multiple candidates, only choose the one with highest priority.
+            val breakIndex = possibleBreakIndices.indexOf(true);
+
+            if (breakIndex < 0) { // If an index was not found, move on to next minute.
+                minutes++
+            } else { // If an index was found.
+                // Determine the type of the selected break and add a break of that type to the break list.
+                // Make the new break start at the current minute.
+                // If it says the cast is not needed, ignore it.
+                when (templateBreaks[breakIndex] as Break) {
+                    is ExerciseBreak -> {
+                        createdBreaks.add(ExerciseBreak(minutes))
+                    }
+                    is RestBreak -> {
+                        createdBreaks.add(RestBreak(minutes))
+                    }
+                    is EyeBreak -> {
+                        createdBreaks.add(EyeBreak(minutes))
+                    }
+                }
+                // Increment the minutes by the break's duration to avoid overlapping breaks.
+                minutes += createdBreaks.last.duration
+            }
+        }
+
+        val debugString = StringBuilder()
+        debugString.append("\n")
+        for (createdBreak in createdBreaks) {
+            debugString.append(createdBreak)
+            debugString.append("\n")
+        }
+        Log.e("initializeBreaks", debugString.toString())
+
+        // Assign the breaks.
+        breaks = createdBreaks
     }
 
     // Starts the end activity with a session length given in minutes and a number of breaks.
