@@ -1,9 +1,9 @@
 package com.geodropstudios.breakr
 
 // Define general abstract break class.
-abstract class Break(start : Int) {
+// Takes the start time of the break in minutes from the start of the session.
+abstract class Break(val start : Int) {
     var active: Boolean = false // Indicates whether the break is currently taking place.
-    val start: Int = 0          // The start time of the break in minutes from the start of the session.
     open val duration: Int = 0  // The duration of the break in minutes from the start of the break.
     open val priority: Int = 0  // The priority of the break over other types of breaks. Lower value means higher priority.
     open val frequency: Int = 0 // The time between breaks in minutes between the starts of the different

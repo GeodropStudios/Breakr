@@ -84,12 +84,12 @@ class TimerActivity : AppCompatActivity() {
 
         // Array of all possible types of breaks for comparing priorities and frequencies.
         // Sorted according to priority to later be abel to use indexOf to find highest priority.
-        // When adding new breaks, make sure to include it here.
-        val templateBreaks = Array(3) { ExerciseBreak(0); RestBreak(0); EyeBreak(0) }.sortedBy { it.priority }
+        // When adding new break types, make sure to include them here.
+        val templateBreaks = arrayOf(ExerciseBreak(0), RestBreak(0), EyeBreak(0)).sortedBy { it.priority }
 
         // Iteration variable is the number of minutes from the start of the session.
         // Start iterating at the first minute, so that the session does not begin with a break.
-        // Stop iteration when the session end has ben passed.
+        // Stop iteration when the session end has been passed.
         var minutes = 1
         while (minutes < sessionDuration) {
             // Boolean array saying if the break at index i of templateBreaks could occur at the current minute.
@@ -121,14 +121,6 @@ class TimerActivity : AppCompatActivity() {
                 minutes += createdBreaks.last.duration
             }
         }
-
-        val debugString = StringBuilder()
-        debugString.append("\n")
-        for (createdBreak in createdBreaks) {
-            debugString.append(createdBreak)
-            debugString.append("\n")
-        }
-        Log.e("initializeBreaks", debugString.toString())
 
         // Assign the breaks.
         breaks = createdBreaks
