@@ -16,42 +16,43 @@
         android:text="@string/pause_text"
         app:backgroundTint="@color/calm3"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/stopButton"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintEnd_toStartOf="@+id/centerCerticalGuideline"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/stopButton"
         android:layout_width="138dp"
         android:layout_height="69dp"
-        android:layout_marginBottom="140dp"
-        android:layout_marginStart="8dp"
         android:text="@string/stop_text"
         app:backgroundTint="@color/calm3"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/pausePlayButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/pausePlayButton" />
+        app:layout_constraintStart_toStartOf="@+id/centerCerticalGuideline"
+        app:layout_constraintTop_toTopOf="@+id/pausePlayButton"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/sessionText"
         android:layout_width="220dp"
         android:layout_height="51dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginEnd="32dp"
         android:fontFamily="sans-serif-black"
         android:gravity="fill"
         android:text="@string/until_session_end_text"
         android:textColor="@color/darkText"
         android:textSize="24sp"
         android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/sessionTimer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/sessionTimer"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/sessionTimer" />
 
     <TextView
         android:id="@+id/sessionTimer"
         android:layout_width="126dp"
         android:layout_height="52dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="140dp"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:text="@string/zero_timer"
@@ -59,7 +60,6 @@
         android:textSize="36sp"
         android:typeface="normal"
         app:layout_constraintEnd_toStartOf="@+id/sessionText"
-        app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -73,11 +73,9 @@
         android:textColor="@color/darkText"
         android:textSize="36sp"
         android:typeface="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/breakWorkText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sessionTimer"
-        app:layout_constraintVertical_bias="0.086" />
+        app:layout_constraintEnd_toEndOf="@+id/sessionTimer"
+        app:layout_constraintStart_toStartOf="@+id/sessionTimer"
+        app:layout_constraintTop_toBottomOf="@+id/sessionTimer" />
 
     <TextView
         android:id="@+id/breakWorkText"
@@ -89,10 +87,16 @@
         android:textColor="@color/darkText"
         android:textSize="24sp"
         android:typeface="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/breakTimer"
-        app:layout_constraintTop_toBottomOf="@+id/sessionText"
-        app:layout_constraintVertical_bias="0.09" />
+        app:layout_constraintBottom_toBottomOf="@+id/breakTimer"
+        app:layout_constraintEnd_toEndOf="@+id/sessionText"
+        app:layout_constraintStart_toStartOf="@+id/sessionText"
+        app:layout_constraintTop_toTopOf="@+id/breakTimer" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/centerCerticalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
