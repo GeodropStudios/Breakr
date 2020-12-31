@@ -2,6 +2,7 @@ package com.geodropstudios.breakr
 
 import android.app.ActivityOptions
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
             exitTransition = Fade()
         }
         setContentView(R.layout.activity_main)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         // Create click listeners for the buttons.
         findViewById<Button>(R.id.endButton).setOnClickListener {

@@ -2,6 +2,7 @@ package com.geodropstudios.breakr
 
 import android.app.ActivityOptions
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -23,6 +24,7 @@ class EndActivity : AppCompatActivity() {
             exitTransition = Fade()
         }
         setContentView(R.layout.activity_end)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         // Set the end button's onclick.
         findViewById<Button>(R.id.endButton).setOnClickListener {

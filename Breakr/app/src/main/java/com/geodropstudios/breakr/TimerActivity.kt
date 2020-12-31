@@ -2,6 +2,7 @@ package com.geodropstudios.breakr
 
 import android.app.ActivityOptions
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -40,6 +41,7 @@ class TimerActivity : AppCompatActivity() {
             exitTransition = Fade()
         }
         setContentView(R.layout.activity_timer)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         initialize()
     }
