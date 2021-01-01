@@ -4,6 +4,7 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.transition.Fade
@@ -14,6 +15,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import java.lang.StringBuilder
 import java.util.*
+import kotlin.math.ceil
+import kotlin.math.roundToInt
 
 class TimerActivity : AppCompatActivity() {
 
@@ -28,8 +31,13 @@ class TimerActivity : AppCompatActivity() {
     private var currentBreakIndex: Int = 0
     private var elapsedTime: Int = 0
     private var isCounting: Boolean = true
-    private var isOnBreak: Boolean = false
+    private var savedMillisRemaining: Long = 0
     private var sessionDuration: Int = 60
+    private var timer: CountDownTimer? = null
+
+    // Constants
+    private val minutesToMillis: Long = 60000
+    private val millisToMinutes: Double = 1 / minutesToMillis.toDouble()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +68,20 @@ class TimerActivity : AppCompatActivity() {
         pausePlayButton = findViewById(R.id.pausePlayButton)
         sessionTimer = findViewById(R.id.sessionTimer)
 
+        // Create breaks.
+        initializeBreaks()
+
+        // Create countdown timer object that counts down the entire session duration and ticks every second.
+        timer = object : CountDownTimer(sessionDuration * minutesToMillis, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                timerOnTick(millisUntilFinished)
+            }
+
+            override fun onFinish() {
+                timerOnFinish()
+            }
+        }.start()
+
         // Set stop button's onclick.
         findViewById<Button>(R.id.stopButton).setOnClickListener {
             startEndActivity(elapsedTime, currentBreakIndex)
@@ -67,16 +89,14 @@ class TimerActivity : AppCompatActivity() {
 
         // Set pause/play button's onclick.
         pausePlayButton?.setOnClickListener {
-            isCounting = !isCounting
+            pausePlay()
             setPausePlayButtonText()
         }
 
         // Set actual text for placeholders.
         setBreakWorkText()
         setPausePlayButtonText()
-
-        // Create breaks.
-        initializeBreaks()
+        setSessionTimerText(sessionDuration)
     }
 
     // Initializes the break list by creating breaks at proper intervals.
@@ -140,8 +160,44 @@ class TimerActivity : AppCompatActivity() {
         }, R.integer.fadeDuration.toLong())
     }
 
+    private fun formatTime(minutes: Int): String {
+        val hours: Int = minutes / 60
+        return "%s:%s".format(hours.toString().padStart(2, '0'), (minutes % hours).toString().padStart(2, '0'))
+    }
+
+    private fun pausePlay() {
+        // Toggle counting.
+        isCounting = !isCounting
+
+        if (isCounting) { // If the timer is now counting.
+            // Create countdown timer object that counts down from the saved time and ticks every second.
+            timer = object : CountDownTimer(savedMillisRemaining, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    timerOnTick(millisUntilFinished)
+                }
+
+                override fun onFinish() {
+                    timerOnFinish()
+                }
+            }.start()
+        } else { // If the timer is now paused.
+            timer?.cancel()
+        }
+    }
+
+    private fun startBreak() {
+        val currentBreak = breaks?.get(currentBreakIndex)
+        currentBreak?.active = true
+        setBreakWorkText()
+    }
+
+    private fun nextBreak() {
+        currentBreakIndex++
+        setBreakWorkText()
+    }
+
     private fun setBreakWorkText() {
-        if (isOnBreak) {
+        if (breaks?.get(currentBreakIndex)?.active as Boolean) {
             breakWorkText?.text = resources.getString(R.string.break_text)
         } else {
             breakWorkText?.text = resources.getString(R.string.work_text)
@@ -154,5 +210,44 @@ class TimerActivity : AppCompatActivity() {
         } else {
             pausePlayButton?.text = resources.getString(R.string.play_text)
         }
+    }
+
+    private fun timerOnTick(millisUntilFinished : Long) {
+        // Save the millis each tick in order to be able to start and pause the timer.
+        savedMillisRemaining = millisUntilFinished
+
+        // Only do minutely updates on the minute mark.
+        if (millisUntilFinished % minutesToMillis != 0.toLong()) return
+
+        // Display the time left in the session.
+        val minutesLeft = ceil(millisUntilFinished * millisToMinutes).toInt()
+        setSessionTimerText(minutesLeft)
+
+        val currentBreak = breaks?.get(currentBreakIndex)
+
+        // Determine if current break starts or ends now.
+        if (minutesLeft == currentBreak?.start as Int) { // Current break starts now.
+            startBreak()
+        } else if (minutesLeft == currentBreak.start + currentBreak.duration) { // Current break ends now.
+            nextBreak()
+        }
+
+        // Determine what time to count towards on the break timer and set that time.
+        val breakMillis: Long = if (currentBreak?.active) {
+            millisUntilFinished - (sessionDuration - (currentBreak.start + currentBreak.duration)) * minutesToMillis
+        } else {
+            millisUntilFinished - (sessionDuration - currentBreak.start) * minutesToMillis
+        }
+
+        breakTimer?.text = formatTime(ceil(breakMillis * millisToMinutes).toInt())
+    }
+
+    private fun setSessionTimerText(minutesLeft: Int) {
+        sessionTimer?.text = formatTime(minutesLeft)
+    }
+
+    // When the timer is done, go to the end activity.
+    private fun timerOnFinish() {
+        startEndActivity(sessionDuration, breaks?.size as Int)
     }
 }
