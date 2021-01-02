@@ -82,7 +82,7 @@ class TimerActivity : AppCompatActivity() {
 
         // Set stop button's onclick.
         findViewById<Button>(R.id.stopButton).setOnClickListener {
-            startEndActivity(sessionDuration - (savedMillisRemaining * millisToMinutes).toInt(), currentBreakIndex)
+            startEndActivity(sessionDuration - (savedMillisRemaining * millisToMinutes).toInt() - 1, currentBreakIndex)
         }
 
         // Set pause/play button's onclick.
@@ -224,7 +224,7 @@ class TimerActivity : AppCompatActivity() {
         // Determine if current break starts or ends now.
         if ( currentBreak?.start as Int <= elapsedMinutes && elapsedMinutes < currentBreak.start + currentBreak.duration) { // Current break starts now.
             onBreak()
-        } else if (elapsedMinutes > currentBreak.start + currentBreak.duration) { // Current break ends now.
+        } else if (elapsedMinutes >= currentBreak.start + currentBreak.duration) { // Current break ends now.
             nextBreak()
         }
 
