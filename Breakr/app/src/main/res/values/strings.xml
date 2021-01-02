@@ -5,7 +5,7 @@
     <string name="break_text">until work</string>
     <string name="play_text">play</string>
     <string name="pause_text">pause</string>
-    <string name="end_template">You worked for %s minutes and took %s breaks!</string>
+    <string name="end_template">You worked for %s minutes and took %s break%s!</string>
     <string name="intro_string">How long will this work session be?</string>
     <string name="hours_string_1">1 hour</string>
     <string name="hours_string_2">2 hours</string>
