@@ -8,15 +8,13 @@ import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.transition.Fade
-import android.util.Log
 import android.view.Window
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import java.lang.StringBuilder
 import java.util.*
 import kotlin.math.ceil
-import kotlin.math.roundToInt
 
 class TimerActivity : AppCompatActivity() {
 
@@ -29,7 +27,6 @@ class TimerActivity : AppCompatActivity() {
     // Variables
     private var breaks: LinkedList<Break>? = null
     private var currentBreakIndex: Int = 0
-    private var elapsedTime: Int = 0
     private var isCounting: Boolean = true
     private var savedMillisRemaining: Long = 0
     private var sessionDuration: Int = 60
@@ -50,6 +47,7 @@ class TimerActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_timer)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         initialize()
     }
@@ -84,7 +82,7 @@ class TimerActivity : AppCompatActivity() {
 
         // Set stop button's onclick.
         findViewById<Button>(R.id.stopButton).setOnClickListener {
-            startEndActivity(elapsedTime, currentBreakIndex)
+            startEndActivity(sessionDuration - (savedMillisRemaining * millisToMinutes).toInt(), currentBreakIndex)
         }
 
         // Set pause/play button's onclick.
@@ -162,7 +160,7 @@ class TimerActivity : AppCompatActivity() {
 
     private fun formatTime(minutes: Int): String {
         val hours: Int = minutes / 60
-        return "%s:%s".format(hours.toString().padStart(2, '0'), (minutes % hours).toString().padStart(2, '0'))
+        return "%s:%s".format(hours, (minutes % 60).toString().padStart(2, '0'))
     }
 
     private fun pausePlay() {
@@ -185,7 +183,7 @@ class TimerActivity : AppCompatActivity() {
         }
     }
 
-    private fun startBreak() {
+    private fun onBreak() {
         val currentBreak = breaks?.get(currentBreakIndex)
         currentBreak?.active = true
         setBreakWorkText()
@@ -216,24 +214,22 @@ class TimerActivity : AppCompatActivity() {
         // Save the millis each tick in order to be able to start and pause the timer.
         savedMillisRemaining = millisUntilFinished
 
-        // Only do minutely updates on the minute mark.
-        if (millisUntilFinished % minutesToMillis != 0.toLong()) return
-
         // Display the time left in the session.
         val minutesLeft = ceil(millisUntilFinished * millisToMinutes).toInt()
+        val elapsedMinutes = sessionDuration - minutesLeft
         setSessionTimerText(minutesLeft)
 
         val currentBreak = breaks?.get(currentBreakIndex)
 
         // Determine if current break starts or ends now.
-        if (minutesLeft == currentBreak?.start as Int) { // Current break starts now.
-            startBreak()
-        } else if (minutesLeft == currentBreak.start + currentBreak.duration) { // Current break ends now.
+        if ( currentBreak?.start as Int <= elapsedMinutes && elapsedMinutes < currentBreak.start + currentBreak.duration) { // Current break starts now.
+            onBreak()
+        } else if (elapsedMinutes > currentBreak.start + currentBreak.duration) { // Current break ends now.
             nextBreak()
         }
 
         // Determine what time to count towards on the break timer and set that time.
-        val breakMillis: Long = if (currentBreak?.active) {
+        val breakMillis: Long = if (currentBreak.active) {
             millisUntilFinished - (sessionDuration - (currentBreak.start + currentBreak.duration)) * minutesToMillis
         } else {
             millisUntilFinished - (sessionDuration - currentBreak.start) * minutesToMillis

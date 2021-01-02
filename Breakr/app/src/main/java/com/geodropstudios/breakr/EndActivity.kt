@@ -38,7 +38,7 @@ class EndActivity : AppCompatActivity() {
         val actualSessionDuration: Int = intent.getIntExtra("actualSessionDuration", 60)
         val actualNumBreaks: Int = intent.getIntExtra("actualNumBreaks", 0)
 
-        endText.text = resources.getString(R.string.end_template).format(actualSessionDuration, actualNumBreaks)
+        endText.text = resources.getString(R.string.end_template).format(actualSessionDuration, actualNumBreaks, if (actualNumBreaks == 1) "s" else "")
     }
 
     override fun onBackPressed() {
