@@ -15,7 +15,26 @@
     <color name="calm3">#C76B98</color>
     <color name="calm4">#632B6C</color>
     <color name="calm5">#270F36</color>
+    <color name="calm0tCC">#CCFFEEE5</color>
+    <color name="calm1tCC">#CCFCC3A3</color>
+    <color name="calm2tCC">#CCF09F9C</color>
+    <color name="calm3tCC">#CCC76B98</color>
+    <color name="calm4tCC">#CC632B6C</color>
+    <color name="calm5tCC">#CC270F36</color>
+    <color name="calm0tAA">#AAFFEEE5</color>
+    <color name="calm1tAA">#AAFCC3A3</color>
+    <color name="calm2tAA">#AAF09F9C</color>
+    <color name="calm3tAA">#AAC76B98</color>
+    <color name="calm4tAA">#AA632B6C</color>
+    <color name="calm5tAA">#AA270F36</color>
+    <color name="calm0t80">#80FFEEE5</color>
+    <color name="calm1t80">#80FCC3A3</color>
+    <color name="calm2t80">#80F09F9C</color>
+    <color name="calm3t80">#80C76B98</color>
+    <color name="calm4t80">#80632B6C</color>
+    <color name="calm5t80">#80270F36</color>
 
     <!-- Text colors -->
     <color name="darkText">#8A000000</color>
+    <color name="lightText">#8AFFFFFF</color>
 </resources>

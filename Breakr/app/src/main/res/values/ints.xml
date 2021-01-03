@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="fadeDuration">500</integer>
+    <integer name="fade_duration">200</integer>
+    <integer name="fade_duration_popup">200</integer>
+    <integer name="break_vibrate_duration">@integer/fade_duration_popup</integer>
 </resources>

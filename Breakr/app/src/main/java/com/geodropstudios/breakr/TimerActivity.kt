@@ -1,16 +1,18 @@
 package com.geodropstudios.breakr
 
+import android.annotation.SuppressLint
 import android.app.ActivityOptions
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.os.Bundle
-import android.os.CountDownTimer
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.transition.Fade
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
@@ -22,19 +24,23 @@ class TimerActivity : AppCompatActivity() {
     private var breakTimer: TextView? = null
     private var breakWorkText: TextView? = null
     private var pausePlayButton: Button? = null
+    private var popupWindow: PopupWindow? = null
     private var sessionTimer: TextView? = null
 
     // Variables
     private var breaks: LinkedList<Break>? = null
     private var currentBreakIndex: Int = 0
     private var isCounting: Boolean = true
+    private var popupShowing: Boolean = false
     private var savedMillisRemaining: Long = 0
     private var sessionDuration: Int = 60
     private var timer: CountDownTimer? = null
+    private var vibrator: Vibrator? = null
 
     // Constants
     private val minutesToMillis: Long = 60000
     private val millisToMinutes: Double = 1 / minutesToMillis.toDouble()
+    private val postBreakDelayMinutes = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +71,8 @@ class TimerActivity : AppCompatActivity() {
         breakWorkText = findViewById(R.id.breakWorkText)
         pausePlayButton = findViewById(R.id.pausePlayButton)
         sessionTimer = findViewById(R.id.sessionTimer)
+
+        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         // Create breaks.
         initializeBreaks()
@@ -125,8 +133,7 @@ class TimerActivity : AppCompatActivity() {
             } else { // If an index was found.
                 // Determine the type of the selected break and add a break of that type to the break list.
                 // Make the new break start at the current minute.
-                // If it says the cast is not needed, ignore it.
-                when (templateBreaks[breakIndex] as Break) {
+                when (templateBreaks[breakIndex]) {
                     is ExerciseBreak -> {
                         createdBreaks.add(ExerciseBreak(minutes))
                     }
@@ -138,7 +145,7 @@ class TimerActivity : AppCompatActivity() {
                     }
                 }
                 // Increment the minutes by the break's duration to avoid overlapping breaks.
-                minutes += createdBreaks.last.duration
+                minutes += createdBreaks.last.duration + postBreakDelayMinutes
             }
         }
 
@@ -155,7 +162,7 @@ class TimerActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             finish()
-        }, R.integer.fadeDuration.toLong())
+        }, R.integer.fade_duration.toLong())
     }
 
     private fun formatTime(minutes: Int): String {
@@ -186,11 +193,30 @@ class TimerActivity : AppCompatActivity() {
     private fun onBreak() {
         val currentBreak = breaks?.get(currentBreakIndex)
         currentBreak?.active = true
+
+        doVibration()
+
+        // Update visuals.
+        showBreakPopup()
         setBreakWorkText()
     }
 
+    private fun doVibration() {
+        vibrator?.vibrate(VibrationEffect.createOneShot(resources.getInteger(R.integer.break_vibrate_duration).toLong(), VibrationEffect.DEFAULT_AMPLITUDE))
+    }
+
     private fun nextBreak() {
+        // If popup is showing, dismiss the popup.
+        if (popupShowing) {
+            popupWindow?.dismiss()
+            popupShowing = false
+        }
+
+        doVibration()
+
         currentBreakIndex++
+
+        // Update visuals.
         setBreakWorkText()
     }
 
@@ -222,9 +248,9 @@ class TimerActivity : AppCompatActivity() {
         val currentBreak = breaks?.get(currentBreakIndex)
 
         // Determine if current break starts or ends now.
-        if ( currentBreak?.start as Int <= elapsedMinutes && elapsedMinutes < currentBreak.start + currentBreak.duration) { // Current break starts now.
+        if (!currentBreak?.active!! && currentBreak.start <= elapsedMinutes && elapsedMinutes < currentBreak.start + currentBreak.duration) { // Current break starts now.
             onBreak()
-        } else if (elapsedMinutes >= currentBreak.start + currentBreak.duration) { // Current break ends now.
+        } else if (currentBreak.active && elapsedMinutes >= currentBreak.start + currentBreak.duration) { // Current break ends now.
             nextBreak()
         }
 
@@ -245,5 +271,53 @@ class TimerActivity : AppCompatActivity() {
     // When the timer is done, go to the end activity.
     private fun timerOnFinish() {
         startEndActivity(sessionDuration, breaks?.size as Int)
+    }
+
+    // Code based on StackOverflow user Suragh (https://stackoverflow.com/a/50188704).
+    private fun showBreakPopup() {
+        // Register that the popup is showing.
+        popupShowing = true;
+
+        // Inflate the layout of the popup window.
+        val inflater: LayoutInflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView: View = inflater.inflate(R.layout.break_popup, null)
+        popupView.animation = AnimationUtils.loadAnimation(this, R.anim.fade_in_popup)
+
+        // Create the popup window.
+        val width: Int = LinearLayout.LayoutParams.WRAP_CONTENT
+        val height: Int = LinearLayout.LayoutParams.WRAP_CONTENT
+        val focusable: Boolean = true // Lets taps outside the popup also dismiss it.
+        popupWindow = PopupWindow(popupView, width, height, focusable)
+        popupWindow?.animationStyle = R.style.popup_animation
+
+        // Show the popup window.
+        // Which view is passed doesn't matter.
+        popupWindow?.showAtLocation(popupView.rootView, Gravity.BOTTOM, 0, 0)
+
+        // Set the text for the popup window depending on break type.
+        when (breaks?.get(currentBreakIndex)) {
+            is EyeBreak -> {
+                popupView.findViewById<TextView>(R.id.popupHeading).text = getString(R.string.eye_break_heading)
+                popupView.findViewById<TextView>(R.id.popupText).text = getString(R.string.eye_break_info)
+            }
+            is RestBreak -> {
+                popupView.findViewById<TextView>(R.id.popupHeading).text = getString(R.string.rest_break_heading)
+                popupView.findViewById<TextView>(R.id.popupText).text = getString(R.string.rest_break_info)
+            }
+            is ExerciseBreak -> {
+                popupView.findViewById<TextView>(R.id.popupHeading).text = getString(R.string.exercise_break_heading)
+                popupView.findViewById<TextView>(R.id.popupText).text = getString(R.string.exercise_break_info)
+            }
+        }
+
+        // Dismiss the popup window when touched.
+        popupView.setOnTouchListener(object: View.OnTouchListener {
+            @SuppressLint("ClickableViewAccessibility")
+            override fun onTouch(popupView: View?, event: MotionEvent?): Boolean {
+                popupWindow?.dismiss()
+                popupShowing = false
+                return true
+            }
+        })
     }
 }

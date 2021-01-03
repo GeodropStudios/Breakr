@@ -31,7 +31,7 @@ class EndActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java), ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
             Handler(Looper.getMainLooper()).postDelayed({
                 finish()
-            }, R.integer.fadeDuration.toLong())
+            }, R.integer.fade_duration.toLong())
         }
 
         val endText: TextView = findViewById(R.id.endText)
