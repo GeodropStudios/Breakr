@@ -8,7 +8,7 @@
         android:bottomLeftRadius="10dp" />
     <stroke
         android:width="3dp"
-        android:color="@color/calm5tCC" />
+        android:color="@color/calm_5_tCC" />
     <solid
-        android:color="@color/calm5tAA"/>
+        android:color="@color/calm_5_tAA"/>
 </shape>

@@ -19,7 +19,7 @@
     <string name="eye_break_heading">Eye Break</string>
     <string name="eye_break_info">Take a few minutes to look away from your work, preferably out the window at something distant, and blink your eyes frequently.</string>
     <string name="rest_break_heading">Rest Break</string>
-    <string name="rest_break_info">Take a short break to rest your body, changing your position and posture to relax and think about something else.</string>
+    <string name="rest_break_info">Take a short break to rest your body, do some stretching, change your position and posture, relax and think about something else.</string>
     <string name="exercise_break_heading">Exercise Break</string>
     <string name="exercise_break_info">Take a slightly longer break, get up from your seat, walk around, do some minor movement exercises.</string>
 </resources>

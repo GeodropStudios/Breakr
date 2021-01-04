@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EndActivity"
-    android:background="@color/calm0">
+    android:background="@color/main_background">
 
     <TextView
         android:id="@+id/endText"
@@ -18,7 +18,7 @@
         android:justificationMode="inter_word"
         android:paddingHorizontal="50dp"
         android:text="@string/end_template"
-        android:textColor="@color/darkText"
+        android:textColor="@color/app_text"
         android:textSize="30sp"
         android:typeface="normal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +33,8 @@
         android:layout_height="72dp"
         android:layout_marginBottom="140dp"
         android:text="@string/return_to_start_string"
-        app:backgroundTint="@color/calm3"
+        app:backgroundTint="@color/button_background"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"

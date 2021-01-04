@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TimerActivity"
-    android:background="@color/calm0">
+    android:background="@color/main_background">
 
     <Button
         android:id="@+id/pausePlayButton"
@@ -14,9 +14,10 @@
         android:layout_height="69dp"
         android:layout_marginBottom="140dp"
         android:text="@string/pause_text"
-        app:backgroundTint="@color/calm3"
+        app:backgroundTint="@color/button_background"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/centerCerticalGuideline"
+        app:layout_constraintEnd_toStartOf="@+id/centerVerticalGuideline"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -24,10 +25,11 @@
         android:layout_width="138dp"
         android:layout_height="69dp"
         android:text="@string/stop_text"
-        app:backgroundTint="@color/calm3"
+        app:backgroundTint="@color/button_background"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/pausePlayButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/centerCerticalGuideline"
+        app:layout_constraintStart_toStartOf="@+id/centerVerticalGuideline"
         app:layout_constraintTop_toTopOf="@+id/pausePlayButton"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -39,7 +41,7 @@
         android:fontFamily="sans-serif-black"
         android:gravity="fill"
         android:text="@string/until_session_end_text"
-        android:textColor="@color/darkText"
+        android:textColor="@color/app_text"
         android:textSize="24sp"
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="@+id/sessionTimer"
@@ -56,7 +58,7 @@
         android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:text="@string/zero_timer"
-        android:textColor="@color/darkText"
+        android:textColor="@color/app_text"
         android:textSize="36sp"
         android:typeface="normal"
         app:layout_constraintEnd_toStartOf="@+id/sessionText"
@@ -70,7 +72,7 @@
         android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:text="@string/zero_timer"
-        android:textColor="@color/darkText"
+        android:textColor="@color/app_text"
         android:textSize="36sp"
         android:typeface="normal"
         app:layout_constraintEnd_toEndOf="@+id/sessionTimer"
@@ -84,7 +86,7 @@
         android:fontFamily="sans-serif-black"
         android:gravity="fill"
         android:text="@string/work_text"
-        android:textColor="@color/darkText"
+        android:textColor="@color/app_text"
         android:textSize="24sp"
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="@+id/breakTimer"
@@ -93,7 +95,7 @@
         app:layout_constraintTop_toTopOf="@+id/breakTimer" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/centerCerticalGuideline"
+        android:id="@+id/centerVerticalGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"

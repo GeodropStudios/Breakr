@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         // Create click listeners for the buttons.
-        findViewById<Button>(R.id.endButton).setOnClickListener {
+        findViewById<Button>(R.id.hourButton1).setOnClickListener {
             startTimerActivity(60)
         }
 

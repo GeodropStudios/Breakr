@@ -35,9 +35,9 @@
     <color name="calm_5_t80">#80270F36</color>
 
     <!-- Text colors -->
-    <color name="app_text">#8A000000</color>
+    <color name="app_text">#FFFFFF</color>
 
     <!-- Element colors -->
-    <color name="main_background">@color/calm_0</color>
-    <color name="button_background">@color/calm_3</color>
+    <color name="main_background">@color/black</color>
+    <color name="button_background">@color/calm_5</color>
 </resources>
