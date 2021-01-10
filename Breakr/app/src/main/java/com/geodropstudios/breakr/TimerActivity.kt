@@ -90,6 +90,7 @@ class TimerActivity : AppCompatActivity() {
 
         // Set stop button's onclick.
         findViewById<Button>(R.id.stopButton).setOnClickListener {
+            timer?.cancel()
             startEndActivity(sessionDuration - (savedMillisRemaining * millisToMinutes).toInt() - 1, currentBreakIndex)
         }
 
