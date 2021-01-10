@@ -16,20 +16,20 @@ abstract class Break(val start : Int) {
 // Define break of type exercise break.
 class ExerciseBreak(start: Int) : Break(start) {
     override val duration: Int = 7
-    override val priority: Int = 0
+    override val priority: Int = 10
     override val frequency: Int = 120
 }
 
 // Define break of type rest break.
 class RestBreak(start: Int) : Break(start) {
     override val duration: Int = 3
-    override val priority: Int = 10
+    override val priority: Int = 20
     override val frequency: Int = 30
 }
 
 // Define break of type eye break.
 class EyeBreak(start: Int) : Break(start) {
     override val duration: Int = 1
-    override val priority: Int = 20
+    override val priority: Int = 30
     override val frequency: Int = 15
 }
