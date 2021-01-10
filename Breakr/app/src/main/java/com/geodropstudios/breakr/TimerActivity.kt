@@ -149,6 +149,9 @@ class TimerActivity : AppCompatActivity() {
             }
         }
 
+        // Create a special break at the end, that will never be run, to counteract index out of bounds exceptions.
+        createdBreaks.add(EndBreak(sessionDuration))
+
         // Assign the breaks.
         breaks = createdBreaks
     }
@@ -270,7 +273,7 @@ class TimerActivity : AppCompatActivity() {
 
     // When the timer is done, go to the end activity.
     private fun timerOnFinish() {
-        startEndActivity(sessionDuration, breaks?.size as Int)
+        startEndActivity(sessionDuration, breaks?.size as Int - 1)
     }
 
     // Code based on StackOverflow user Suragh (https://stackoverflow.com/a/50188704).

@@ -33,3 +33,11 @@ class EyeBreak(start: Int) : Break(start) {
     override val priority: Int = 30
     override val frequency: Int = 15
 }
+
+// Define break of type end break.
+// This break is only meant as a countermeasure to index out of bounds exceptions after the last normal break.
+class EndBreak(start: Int) : Break(start) {
+    override val duration: Int = 100
+    override val priority: Int = 100
+    override val frequency: Int = 100
+}
