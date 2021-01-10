@@ -31,7 +31,7 @@
         android:justificationMode="inter_word"
         android:paddingHorizontal="20dp"
         android:text="@string/eye_break_info"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:textColor="@color/white"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
