@@ -310,7 +310,7 @@ class TimerActivity : AppCompatActivity() {
             }
         }
 
-        // Dismiss the popup window when touched.
+        // Dismiss the popup window when screen is touched anywhere.
         popupView.setOnTouchListener(object: View.OnTouchListener {
             @SuppressLint("ClickableViewAccessibility")
             override fun onTouch(popupView: View?, event: MotionEvent?): Boolean {
