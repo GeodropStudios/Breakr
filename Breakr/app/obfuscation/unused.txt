@@ -8603,6 +8603,7 @@ androidx.core.app.NotificationCompat$DecoratedCustomViewStyle
 androidx.transition.R$dimen
 androidx.viewpager2.widget.ViewPager2$Orientation
 com.geodropstudios.breakr.TimerActivity:
+    public static final synthetic void access$setTimer$p(com.geodropstudios.breakr.TimerActivity,android.os.CountDownTimer)
     public static final synthetic void access$setSessionDuration$p(com.geodropstudios.breakr.TimerActivity,int)
     public static final synthetic void access$setSavedMillisRemaining$p(com.geodropstudios.breakr.TimerActivity,long)
     public static final synthetic void access$setCurrentBreakIndex$p(com.geodropstudios.breakr.TimerActivity,int)
@@ -17139,6 +17140,10 @@ androidx.transition.TransitionManager:
     public static void sceneChangeSetup(android.view.ViewGroup,androidx.transition.Transition)
     public static void beginDelayedTransition(android.view.ViewGroup,androidx.transition.Transition)
 androidx.core.view.ViewPropertyAnimatorCompat$ViewPropertyAnimatorListenerApi14
+com.geodropstudios.breakr.EndBreak:
+    public final int duration
+    public final int priority
+    public final int frequency
 com.google.android.material.appbar.AppBarLayout$BaseBehavior:
     public static android.view.View getAppBarChildOnOffset(com.google.android.material.appbar.AppBarLayout,int)
     public static synthetic int access$000(com.google.android.material.appbar.AppBarLayout$BaseBehavior)
@@ -19067,6 +19072,7 @@ androidx.lifecycle.ViewModel:
     public final void clear()
     public volatile boolean mCleared
 com.geodropstudios.breakr.TimerActivity:
+    public static final synthetic android.os.CountDownTimer access$getTimer$p(com.geodropstudios.breakr.TimerActivity)
     public static final synthetic void access$startEndActivity(com.geodropstudios.breakr.TimerActivity,int,int)
     public static final synthetic int access$getSessionDuration$p(com.geodropstudios.breakr.TimerActivity)
     public static final synthetic long access$getSavedMillisRemaining$p(com.geodropstudios.breakr.TimerActivity)
@@ -19078,13 +19084,13 @@ com.geodropstudios.breakr.TimerActivity:
     public static final synthetic void access$setPopupShowing$p(com.geodropstudios.breakr.TimerActivity,boolean)
     public final void initialize()
     public final void initializeBreaks()
-    public final void pausePlay()
-    public final void onBreak()
     public final void nextBreak()
-    public final void timerOnTick(long)
+    public final void onBreak()
+    public final void pausePlay()
     public final void setSessionTimerText(int)
-    public final void timerOnFinish()
     public final void showBreakPopup()
+    public final void timerOnFinish()
+    public final void timerOnTick(long)
 androidx.constraintlayout.widget.ConstraintLayoutStates:
     public void setOnConstraintsChanged(androidx.constraintlayout.widget.ConstraintsChangedListener)
     public final void load(android.content.Context,int)
