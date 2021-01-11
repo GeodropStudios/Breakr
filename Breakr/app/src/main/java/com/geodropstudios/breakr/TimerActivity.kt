@@ -157,21 +157,39 @@ class TimerActivity : AppCompatActivity() {
         breaks = createdBreaks
     }
 
-    // Starts the end activity with a session length given in minutes and a number of breaks.
-    private fun startEndActivity(minutes: Int, numBreaks: Int) {
-        val nextIntent: Intent = Intent(this, EndActivity::class.java)
-        nextIntent.putExtra("actualSessionDuration", minutes)
-        nextIntent.putExtra("actualNumBreaks", numBreaks)
-        startActivity(nextIntent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            finish()
-        }, R.integer.fade_duration.toLong())
-    }
-
     private fun formatTime(minutes: Int): String {
         val hours: Int = minutes / 60
         return "%s:%s".format(hours, (minutes % 60).toString().padStart(2, '0'))
+    }
+
+    private fun doVibration() {
+        vibrator?.vibrate(VibrationEffect.createOneShot(resources.getInteger(R.integer.break_vibrate_duration).toLong(), VibrationEffect.DEFAULT_AMPLITUDE))
+    }
+
+    private fun nextBreak() {
+        // If popup is showing, dismiss the popup.
+        if (popupShowing) {
+            popupWindow?.dismiss()
+            popupShowing = false
+        }
+
+        doVibration()
+
+        currentBreakIndex++
+
+        // Update visuals.
+        setBreakWorkText()
+    }
+
+    private fun onBreak() {
+        val currentBreak = breaks?.get(currentBreakIndex)
+        currentBreak?.active = true
+
+        doVibration()
+
+        // Update visuals.
+        showBreakPopup()
+        setBreakWorkText()
     }
 
     private fun pausePlay() {
@@ -194,36 +212,6 @@ class TimerActivity : AppCompatActivity() {
         }
     }
 
-    private fun onBreak() {
-        val currentBreak = breaks?.get(currentBreakIndex)
-        currentBreak?.active = true
-
-        doVibration()
-
-        // Update visuals.
-        showBreakPopup()
-        setBreakWorkText()
-    }
-
-    private fun doVibration() {
-        vibrator?.vibrate(VibrationEffect.createOneShot(resources.getInteger(R.integer.break_vibrate_duration).toLong(), VibrationEffect.DEFAULT_AMPLITUDE))
-    }
-
-    private fun nextBreak() {
-        // If popup is showing, dismiss the popup.
-        if (popupShowing) {
-            popupWindow?.dismiss()
-            popupShowing = false
-        }
-
-        doVibration()
-
-        currentBreakIndex++
-
-        // Update visuals.
-        setBreakWorkText()
-    }
-
     private fun setBreakWorkText() {
         if (breaks?.get(currentBreakIndex)?.active as Boolean) {
             breakWorkText?.text = resources.getString(R.string.break_text)
@@ -240,41 +228,8 @@ class TimerActivity : AppCompatActivity() {
         }
     }
 
-    private fun timerOnTick(millisUntilFinished : Long) {
-        // Save the millis each tick in order to be able to start and pause the timer.
-        savedMillisRemaining = millisUntilFinished
-
-        // Display the time left in the session.
-        val minutesLeft = ceil(millisUntilFinished * millisToMinutes).toInt()
-        val elapsedMinutes = sessionDuration - minutesLeft
-        setSessionTimerText(minutesLeft)
-
-        val currentBreak = breaks?.get(currentBreakIndex)
-
-        // Determine if current break starts or ends now.
-        if (!currentBreak?.active!! && currentBreak.start <= elapsedMinutes && elapsedMinutes < currentBreak.start + currentBreak.duration) { // Current break starts now.
-            onBreak()
-        } else if (currentBreak.active && elapsedMinutes >= currentBreak.start + currentBreak.duration) { // Current break ends now.
-            nextBreak()
-        }
-
-        // Determine what time to count towards on the break timer and set that time.
-        val breakMillis: Long = if (currentBreak.active) {
-            millisUntilFinished - (sessionDuration - (currentBreak.start + currentBreak.duration)) * minutesToMillis
-        } else {
-            millisUntilFinished - (sessionDuration - currentBreak.start) * minutesToMillis
-        }
-
-        breakTimer?.text = formatTime(ceil(breakMillis * millisToMinutes).toInt())
-    }
-
     private fun setSessionTimerText(minutesLeft: Int) {
         sessionTimer?.text = formatTime(minutesLeft)
-    }
-
-    // When the timer is done, go to the end activity.
-    private fun timerOnFinish() {
-        startEndActivity(sessionDuration, breaks?.size as Int - 1)
     }
 
     // Code based on StackOverflow user Suragh (https://stackoverflow.com/a/50188704).
@@ -323,5 +278,50 @@ class TimerActivity : AppCompatActivity() {
                 return true
             }
         })
+    }
+
+    // Starts the end activity with a session length given in minutes and a number of breaks.
+    private fun startEndActivity(minutes: Int, numBreaks: Int) {
+        val nextIntent: Intent = Intent(this, EndActivity::class.java)
+        nextIntent.putExtra("actualSessionDuration", minutes)
+        nextIntent.putExtra("actualNumBreaks", numBreaks)
+        startActivity(nextIntent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            finish()
+        }, R.integer.fade_duration.toLong())
+    }
+
+    // When the timer is done, go to the end activity.
+    private fun timerOnFinish() {
+        startEndActivity(sessionDuration, breaks?.size as Int - 1)
+    }
+
+    private fun timerOnTick(millisUntilFinished : Long) {
+        // Save the millis each tick in order to be able to start and pause the timer.
+        savedMillisRemaining = millisUntilFinished
+
+        // Display the time left in the session.
+        val minutesLeft = ceil(millisUntilFinished * millisToMinutes).toInt()
+        val elapsedMinutes = sessionDuration - minutesLeft
+        setSessionTimerText(minutesLeft)
+
+        val currentBreak = breaks?.get(currentBreakIndex)
+
+        // Determine if current break starts or ends now.
+        if (!currentBreak?.active!! && currentBreak.start <= elapsedMinutes && elapsedMinutes < currentBreak.start + currentBreak.duration) { // Current break starts now.
+            onBreak()
+        } else if (currentBreak.active && elapsedMinutes >= currentBreak.start + currentBreak.duration) { // Current break ends now.
+            nextBreak()
+        }
+
+        // Determine what time to count towards on the break timer and set that time.
+        val breakMillis: Long = if (currentBreak.active) {
+            millisUntilFinished - (sessionDuration - (currentBreak.start + currentBreak.duration)) * minutesToMillis
+        } else {
+            millisUntilFinished - (sessionDuration - currentBreak.start) * minutesToMillis
+        }
+
+        breakTimer?.text = formatTime(ceil(breakMillis * millisToMinutes).toInt())
     }
 }
